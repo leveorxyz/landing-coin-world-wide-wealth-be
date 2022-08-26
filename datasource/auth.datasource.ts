@@ -13,6 +13,9 @@ export const findUserByEmail = async (email: string) => {
     .then(async (user: User | null) => {
       await prisma.$disconnect();
       return user;
+    }).catch(async (e: Error) => {
+      await prisma.$disconnect();
+      throw e;
     });
 };
 
