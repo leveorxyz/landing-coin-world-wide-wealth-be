@@ -1,36 +1,29 @@
-import { PrismaClient, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 
+import { findUserByEmail, createUser } from "../datasource/auth.datasource";
+import { responseWrapper } from "../utils/functions";
+
 dotenv.config();
-const prisma = new PrismaClient();
 
 export const login = async (req: Request, res: Response) => {
   try {
-    await prisma.$connect();
     const { email, password } = req.body as User;
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const user = await findUserByEmail(email);
     if (!user) {
-      return res.status(400).send({
-        message: "Invalid email or password",
-        statusCode: 400,
-        result: null,
-      });
+      return res
+        .status(400)
+        .send(responseWrapper("Invalid Username or password", 400, null));
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send({
-        message: "Invalid email or password",
-        statusCode: 400,
-        result: null,
-      });
+      return res
+        .status(400)
+        .send(responseWrapper("Invalid Username or password", 400, null));
     }
     const token = jwt.sign(
       {
@@ -56,13 +49,8 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    await prisma.$connect();
     const { name, email, password } = req.body as User;
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const user = await findUserByEmail(email);
     if (user) {
       return res.status(400).send({
         message: "User already exists",
@@ -71,13 +59,7 @@ export const register = async (req: Request, res: Response) => {
       });
     }
     const hash = await bcrypt.hash(password, 12);
-    const newUser = await prisma.user.create({
-      data: {
-        name: name,
-        email: email,
-        password: hash,
-      },
-    });
+    await createUser(name, email, hash);
     return res.status(201).send({
       message: "User created successfully",
       statusCode: 201,
