@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { Request, Response } from "express";
 
 import { findUserByEmail, createUser } from "../datasource/auth.datasource";
-import { responseWrapper } from "../utils/functions";
+import { wrappedResponse } from "../utils/functions";
 
 dotenv.config();
 
@@ -14,15 +14,11 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body as User;
     const user = await findUserByEmail(email);
     if (!user) {
-      return res
-        .status(400)
-        .send(responseWrapper("Invalid Username or password", 400, null));
+      return wrappedResponse(res, "Invalid Username or password", 400, null);
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res
-        .status(400)
-        .send(responseWrapper("Invalid Username or password", 400, null));
+      return wrappedResponse(res, "Invalid Username or password", 400, null);
     }
     const token = jwt.sign(
       {
@@ -33,16 +29,9 @@ export const login = async (req: Request, res: Response) => {
         expiresIn: "30d",
       }
     );
-    return res.status(200).send({
-      message: "Login Successful",
-      statusCode: 200,
-      result: {
-        token,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).send(e);
+    return wrappedResponse(res, "Login Successful", 200, { token });
+  } catch (e: any) {
+    return wrappedResponse(res, e.message, 500, null);
   }
 };
 
@@ -51,21 +40,12 @@ export const register = async (req: Request, res: Response) => {
     const { name, email, password } = req.body as User;
     const user = await findUserByEmail(email);
     if (user) {
-      return res.status(400).send({
-        message: "User already exists",
-        statusCode: 400,
-        result: null,
-      });
+      return wrappedResponse(res, "User already exists", 400, null);
     }
     const hash = await bcrypt.hash(password, 12);
     await createUser(name, email, hash);
-    return res.status(201).send({
-      message: "User created successfully",
-      statusCode: 201,
-      result: null,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).send(e);
+    return wrappedResponse(res, "User created successfully", 201, null);
+  } catch (e: any) {
+    return wrappedResponse(res, e.message, 500, null);
   }
 };
