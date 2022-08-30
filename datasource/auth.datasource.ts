@@ -38,3 +38,21 @@ export const createUser = async (
       return user;
     });
 };
+
+export const findUserById = async (id: string) => {
+  await prisma.$connect();
+  return prisma.user
+    .findUnique({
+      where: {
+        id,
+      },
+    })
+    .then(async (user: User | null) => {
+      await prisma.$disconnect();
+      return user;
+    })
+    .catch(async (e: Error) => {
+      await prisma.$disconnect();
+      throw e;
+    });
+};
