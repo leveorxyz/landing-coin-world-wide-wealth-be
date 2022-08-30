@@ -26,6 +26,8 @@ export const authMiddleware = async (
     if (!user) {
       return wrappedResponse(res, "Invalid token", 400, null);
     }
+
+    res.locals.user = user;
     next();
   } catch (e: any) {
     if (e instanceof jwt.JsonWebTokenError && e.message != "jwt expired") {
