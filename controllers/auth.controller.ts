@@ -1,7 +1,6 @@
 import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import _ from "lodash";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 
