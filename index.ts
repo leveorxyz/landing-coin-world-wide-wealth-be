@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 const port: number = parseInt(process.env.PORT || "8000");
 app.use(express.json());
-app.use("/", authMiddleware, demoRoute);
+app.use("/hello", authMiddleware, demoRoute);
 app.use("/auth", authRoute);
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running on port ${port}`);

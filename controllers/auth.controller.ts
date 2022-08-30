@@ -37,15 +37,18 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body as User;
+    const { name, email, password, publicAddress, location } = req.body as User;
     const user = await findUserByEmail(email);
+    console.log(user);
     if (user) {
+      console.log("error User exists");
       return wrappedResponse(res, "User already exists", 400, null);
     }
     const hash = await bcrypt.hash(password, 12);
-    await createUser(name, email, hash);
+    await createUser(name, email, hash, publicAddress, location);
     return wrappedResponse(res, "User created successfully", 201, null);
   } catch (e: any) {
+    console.log("error", e);
     return wrappedResponse(res, e.message, 500, null);
   }
 };
