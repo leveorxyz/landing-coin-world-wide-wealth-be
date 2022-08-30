@@ -82,11 +82,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.184":
-  version "4.14.184"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.184.tgz#23f96cd2a21a28e106dc24d825d4aa966de7a9fe"
-  integrity sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==
-
 "@types/mime@*":
   version "3.0.1"
   resolved "https://registry.npmjs.org/@types/mime/-/mime-3.0.1.tgz"
@@ -966,6 +961,11 @@ qs@6.10.3:
   integrity sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==
   dependencies:
     side-channel "^1.0.4"
+
+radash@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/radash/-/radash-7.0.1.tgz#e946557abe0b24249baf04eaea34a39e12850216"
+  integrity sha512-32P0YTWqrZ3uMt3cDTUpPnhEVj3b5cnqjkpjp3r+05jUVhG6PFvlknkvwLVI5DEPUc/qwmsBtcuF5CtgBkMdwQ==
 
 range-parser@~1.2.1:
   version "1.2.1"
