@@ -13,7 +13,8 @@ export const findUserByEmail = async (email: string) => {
     .then(async (user: User | null) => {
       await prisma.$disconnect();
       return user;
-    }).catch(async (e: Error) => {
+    })
+    .catch(async (e: Error) => {
       await prisma.$disconnect();
       throw e;
     });
@@ -22,7 +23,9 @@ export const findUserByEmail = async (email: string) => {
 export const createUser = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  publicAddress: string,
+  location: string
 ) => {
   await prisma.$connect();
   return prisma.user
@@ -31,6 +34,8 @@ export const createUser = async (
         name: name,
         email: email,
         password: password,
+        publicAddress: publicAddress,
+        location: location,
       },
     })
     .then(async (user: User | null) => {
