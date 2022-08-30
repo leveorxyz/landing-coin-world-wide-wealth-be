@@ -6,14 +6,15 @@ export const methodNotAllowed = (
   next: NextFunction
 ) => res.status(405).send({ error: "Method not allowed" });
 
-export const responseWrapper = (
+export const wrappedResponse = (
+  res: Response,
   message: string,
-  statusCode: Number,
+  statusCode: number,
   result: Object | null | string
-): GlobalResponse => {
-  return {
+): Response<GlobalResponse> => {
+  return res.status(statusCode).json({
     message,
     statusCode,
     result,
-  };
+  });
 };
