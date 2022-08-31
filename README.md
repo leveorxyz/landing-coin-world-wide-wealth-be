@@ -4,16 +4,22 @@ Backend for www project
 
 ## Installation
 
-Use `yarn` to install the dependencies.
+- First copy the `example.env` file to `.env` file
 
-```bash
-yarn
-```
+    ```bash
+    cp example.env .env
+    ```
+
+- Use `yarn` to install the dependencies.
+
+    ```bash
+    yarn
+    ```
 
 ## Quick Start
 
-Use the default scripts to run the project
+- Use the default scripts to run the project
 
-```bash
-yarn dev
-```
+    ```bash
+    yarn dev
+    ```
