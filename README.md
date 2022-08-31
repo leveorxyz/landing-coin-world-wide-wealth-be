@@ -16,6 +16,12 @@ Backend for www project
     yarn
     ```
 
+- Generate the prisma types with `prisma`
+
+    ```bash
+    npx prisma generate
+    ```
+
 ## Quick Start
 
 - Use the default scripts to run the project
