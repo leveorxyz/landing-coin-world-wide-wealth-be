@@ -29,5 +29,5 @@ model Property {
   legalDoc     String
   tenantStatus Boolean
   createdAt    DateTime @default(now())
-  rentDueDate  DateTime
+  rentDueDate  String
 }

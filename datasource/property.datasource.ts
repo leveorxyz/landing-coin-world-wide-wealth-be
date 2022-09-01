@@ -10,7 +10,7 @@ export const createNewProperty = async (
   image: string,
   legalDoc: string,
   tenantStatus: boolean,
-  rentDueDate: Date
+  rentDueDate: string
 ) => {
   await prisma.$connect();
   return prisma.property
