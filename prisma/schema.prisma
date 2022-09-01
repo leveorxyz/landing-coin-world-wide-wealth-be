@@ -18,3 +18,16 @@ model User {
   location      String
   password      String
 }
+
+model Property {
+  id           String   @id @default(uuid())
+  name         String
+  boughtFrom   String
+  price        Int
+  location     String
+  image        String
+  legalDoc     String
+  tenantStatus Boolean
+  createdAt    DateTime @default(now())
+  rentDueDate  DateTime
+}
