@@ -29,3 +29,14 @@ Backend for www project
     ```bash
     yarn dev
     ```
+
+## Cron Jobs & Services
+
+- Buy token service
+  - Trigger once the user has bought LANDC token with usdc
+  - Receive webhook calls from stripe
+  - Partition the amount by 96%, 3% and 1%
+  - Transact the amounts to liquidity fund, escrow account and dev team respectively using Stripe
+- Buring tokens cron:
+  - Get 3% and 1% equivalent token from smart contract
+  - Burn the equivalent token on monthly basis
