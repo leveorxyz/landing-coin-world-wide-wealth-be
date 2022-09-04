@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 import demoRoute from "./routes/demo";
 import authRoute from "./routes/auth.route";
+import propertyRoute from "./routes/property.route";
+
 import { authMiddleware } from "./utils/middlewares";
 import fundDisburseCron from "./cronjobs/disbursement";
 
@@ -15,6 +17,7 @@ app.use(express.json());
 
 app.use("/hello", authMiddleware, demoRoute);
 app.use("/auth", authRoute);
+app.use("/property", propertyRoute);
 
 app.listen(port, () => {
   fundDisburseCron.start();
