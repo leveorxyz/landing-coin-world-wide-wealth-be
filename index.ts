@@ -5,6 +5,7 @@ import demoRoute from "./routes/demo";
 import authRoute from "./routes/auth.route";
 import propertyRoute from "./routes/property.route";
 
+import cors from "cors";
 import { authMiddleware } from "./utils/middlewares";
 import fundDisburseCron from "./cronjobs/disbursement";
 
@@ -14,6 +15,7 @@ const app = express();
 const port: number = parseInt(process.env.PORT || "8000");
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/hello", authMiddleware, demoRoute);
 app.use("/auth", authRoute);
