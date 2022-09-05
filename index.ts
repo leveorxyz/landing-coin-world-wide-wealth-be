@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
@@ -9,6 +9,7 @@ import propertyRoute from "./routes/property.route";
 import { authMiddleware } from "./utils/middlewares";
 import fundDisburseCron from "./cronjobs/disbursement";
 import swaggerFile from "./swagger/swagger.json";
+import { wrappedResponse } from "./utils/functions";
 
 dotenv.config();
 
@@ -23,6 +24,10 @@ app.use("/doc", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 app.use("/hello", authMiddleware, demoRoute);
 app.use("/auth", authRoute);
 app.use("/property", propertyRoute);
+
+app.use("*", (req: Request, res: Response) => {
+  return wrappedResponse(res, "Not Found", 404, null);
+});
 
 app.listen(port, () => {
   fundDisburseCron.start();
