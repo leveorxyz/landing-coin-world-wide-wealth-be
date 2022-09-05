@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
@@ -27,6 +27,15 @@ app.use("/property", propertyRoute);
 
 app.use("*", (req: Request, res: Response) => {
   return wrappedResponse(res, "Not Found", 404, null);
+});
+
+app.use(function onError(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  return wrappedResponse(res, err.message, 500, null);
 });
 
 app.listen(port, () => {
