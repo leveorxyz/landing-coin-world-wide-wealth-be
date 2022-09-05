@@ -146,8 +146,8 @@
                   "example": "any"
                 },
                 "tenantStatus": {
-                  "type": "string",
-                  "example": "any"
+                  "type": "boolean",
+                  "example": false
                 },
                 "rentDueDate": {
                   "type": "string",
@@ -180,7 +180,7 @@
                     "location": "any",
                     "image": "any",
                     "legalDoc": "any",
-                    "tenantStatus": "any",
+                    "tenantStatus": false,
                     "rentDueDate": "date string",
                     "createdAt": "date string"
                   }
@@ -224,7 +224,7 @@
                     "location": "any",
                     "image": "any",
                     "legalDoc": "any",
-                    "tenantStatus": "any",
+                    "tenantStatus": false,
                     "rentDueDate": "date string",
                     "createdAt": "date string"
                   }
@@ -265,7 +265,7 @@
                         "location": "any",
                         "image": "any",
                         "legalDoc": "any",
-                        "tenantStatus": "any",
+                        "tenantStatus": false,
                         "rentDueDate": "date string",
                         "createdAt": "date string"
                       }
