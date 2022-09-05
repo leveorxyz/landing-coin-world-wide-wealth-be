@@ -1,0 +1,282 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "string"
+                },
+                "password": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Login Successful"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": ["object", "null", "string"],
+                  "example": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "publicAddress": {
+                  "type": "string",
+                  "example": "0x0000000000000000000000000000000000000000"
+                },
+                "location": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User Created Successfully"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "result": {
+                  "type": ["object", "null", "string"],
+                  "example": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property/create": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "boughtFrom": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 100.1
+                },
+                "location": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "legalDoc": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "tenantStatus": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "rentDueDate": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Property Created Successfully"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "result": {
+                  "type": "object",
+                  "example": {
+                    "name": "any",
+                    "boughtFrom": "any",
+                    "price": 100.1,
+                    "location": "any",
+                    "image": "any",
+                    "legalDoc": "any",
+                    "tenantStatus": "any",
+                    "rentDueDate": "date string",
+                    "createdAt": "date string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "type": "string",
+            "name": "id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Property found"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "object",
+                  "example": {
+                    "name": "any",
+                    "boughtFrom": "any",
+                    "price": 100.1,
+                    "location": "any",
+                    "image": "any",
+                    "legalDoc": "any",
+                    "tenantStatus": "any",
+                    "rentDueDate": "date string",
+                    "createdAt": "date string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Property found"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "type": "object",
+                      "example": {
+                        "name": "any",
+                        "boughtFrom": "any",
+                        "price": 100.1,
+                        "location": "any",
+                        "image": "any",
+                        "legalDoc": "any",
+                        "tenantStatus": "any",
+                        "rentDueDate": "date string",
+                        "createdAt": "date string"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
