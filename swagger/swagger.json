@@ -233,6 +233,62 @@
             }
           }
         }
+      },
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "tenantStatus": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Property found"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "object",
+                  "example": {
+                    "name": "any",
+                    "boughtFrom": "any",
+                    "price": 100.1,
+                    "location": "any",
+                    "image": "any",
+                    "legalDoc": "any",
+                    "tenantStatus": false,
+                    "rentDueDate": "date string",
+                    "createdAt": "date string"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/property/": {

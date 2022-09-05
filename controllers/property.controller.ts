@@ -4,6 +4,7 @@ import {
   findPropertyById,
   findAllProperties,
   createNewProperty,
+  updateProperty,
 } from "../datasource/property.datasource";
 import { wrappedResponse } from "../utils/functions";
 
@@ -54,6 +55,26 @@ export const getPropertyById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const property = await findPropertyById(id);
     return wrappedResponse(res, "Property found successfully", 200, property);
+  } catch (e: any) {
+    return wrappedResponse(res, e.message, 500, null);
+  }
+};
+
+export const updateTenantStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { tenantStatus } = req.body;
+    const property = await findPropertyById(id);
+    if (property) {
+      const updateTenant = await updateProperty(id, tenantStatus);
+      return wrappedResponse(
+        res,
+        "Tenant status updated successfully",
+        200,
+        updateTenant
+      );
+    }
+    return wrappedResponse(res, "Property not found", 404, null);
   } catch (e: any) {
     return wrappedResponse(res, e.message, 500, null);
   }
