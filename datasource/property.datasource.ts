@@ -63,3 +63,24 @@ export const findAllProperties = async () => {
       throw e;
     });
 };
+
+export const updateProperty = async (id: string, status: boolean) => {
+  await prisma.$connect();
+  return prisma.property
+    .update({
+      where: {
+        id,
+      },
+      data: {
+        tenantStatus: status,
+      },
+    })
+    .then(async (property: Property | null) => {
+      await prisma.$disconnect();
+      return property;
+    })
+    .catch(async (e: Error) => {
+      await prisma.$disconnect();
+      throw e;
+    });
+};
