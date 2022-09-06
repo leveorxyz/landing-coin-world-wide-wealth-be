@@ -19,7 +19,7 @@ Backend for www project
 - Generate the prisma types with `prisma`
 
     ```bash
-    npx prisma generate
+    npx prisma migrate dev
     ```
 
 ## Quick Start
