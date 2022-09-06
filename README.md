@@ -35,6 +35,11 @@ Backend for www project
     ```bash
     yarn start
     ```
+    
+## Dummy credentials and agent dashboard
+- Website: [https://www-agent.vercel.app/](https://www-agent.vercel.app/)
+- Email: user@mail.com
+- Password: password
 
 ## Cron Jobs & Services
 
