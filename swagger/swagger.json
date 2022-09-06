@@ -333,6 +333,89 @@
           }
         }
       }
+    },
+    "/rent/due": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Due rent calculated successfully"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "number",
+                  "example": 1000
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rent/admin-pay": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Updated successfuly"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "null",
+                  "example": null
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
