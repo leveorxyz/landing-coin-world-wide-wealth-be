@@ -30,7 +30,6 @@ model Property {
   tenantStatus  Boolean
   createdAt     DateTime        @default(now())
   rentDueDate   String
-  rentDue       RentDue[]
   rentCollected RentCollected[]
 }
 
@@ -41,15 +40,6 @@ model TransactionInfo {
   pricePaid     Int
   createdAt     DateTime @default(now())
   type          String
-}
-
-model RentDue {
-  id         String   @id @default(uuid())
-  month      String
-  year       String
-  rent       Int
-  propertyId String
-  Property   Property @relation(fields: [propertyId], references: [id])
 }
 
 model RentCollected {
