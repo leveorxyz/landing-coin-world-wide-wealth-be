@@ -20,14 +20,33 @@ model User {
 }
 
 model Property {
-  id           String   @id @default(uuid())
-  name         String
-  boughtFrom   String
-  price        Int
-  location     String
-  image        String
-  legalDoc     String
-  tenantStatus Boolean
-  createdAt    DateTime @default(now())
-  rentDueDate  String
+  id            String          @id @default(uuid())
+  name          String
+  boughtFrom    String
+  price         Int
+  location      String
+  image         String
+  legalDoc      String
+  tenantStatus  Boolean
+  createdAt     DateTime        @default(now())
+  rentDueDate   String
+  rentCollected RentCollected[]
+}
+
+model TransactionInfo {
+  transactionId String   @id @default(uuid())
+  publicAddress String
+  amount        Int
+  pricePaid     Int
+  createdAt     DateTime @default(now())
+  type          String
+}
+
+model RentCollected {
+  id         String   @id @default(uuid())
+  month      String
+  year       String
+  rent       Int
+  propertyId String
+  Property   Property @relation(fields: [propertyId], references: [id])
 }

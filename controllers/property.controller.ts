@@ -6,6 +6,7 @@ import {
   createNewProperty,
   updateProperty,
 } from "../datasource/property.datasource";
+import { getAllRentByPropertyId } from "../datasource/rent.datasource";
 import { wrappedResponse } from "../utils/functions";
 
 export const createProperty = async (req: Request, res: Response) => {
@@ -38,13 +39,18 @@ export const createProperty = async (req: Request, res: Response) => {
 
 export const getAllProperties = async (req: Request, res: Response) => {
   try {
-    const properties = await findAllProperties();
-    return wrappedResponse(
-      res,
-      "Properties found successfully",
-      200,
-      properties
-    );
+    const properties = (await findAllProperties()) || [];
+    const result = [];
+    for (let i in properties) {
+      result.push({
+        ...properties[i],
+        rentCollected: (await getAllRentByPropertyId(properties[i].id))?.reduce(
+          (a, b) => a + b.rent,
+          0
+        ),
+      });
+    }
+    return wrappedResponse(res, "Properties found successfully", 200, result);
   } catch (e: any) {
     return wrappedResponse(res, e.message, 500, null);
   }

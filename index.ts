@@ -7,6 +7,7 @@ import demoRoute from "./routes/demo";
 import authRoute from "./routes/auth.route";
 import propertyRoute from "./routes/property.route";
 import paymentRoute from "./routes/payment.route";
+import rentRoute from "./routes/rent.route";
 
 import { authMiddleware } from "./utils/middlewares";
 import fundDisburseCron from "./cronjobs/disbursement";
@@ -18,6 +19,7 @@ dotenv.config();
 const app = express();
 const port: number = parseInt(process.env.PORT || "8000");
 
+app.use("/payment", express.raw({ type: "application/json" }), paymentRoute);
 app.use(express.json());
 app.use(cors());
 
@@ -26,9 +28,9 @@ app.use("/doc", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 app.use("/hello", authMiddleware, demoRoute);
 app.use("/auth", authRoute);
 app.use("/property", propertyRoute);
-app.use("/payment", paymentRoute);
+app.use("/rent", rentRoute);
 
-app.use("*", (req: Request, res: Response) => {
+app.use("*", (_: Request, res: Response) => {
   return wrappedResponse(res, "Not Found", 404, null);
 });
 
