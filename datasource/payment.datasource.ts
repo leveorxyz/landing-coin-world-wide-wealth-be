@@ -43,12 +43,16 @@ export const findTransactionById = async (id: string) => {
     });
 };
 
-export const findbyWalletAddress = async (publicAddress: string) => {
+export const findbyWalletAddress = async (
+  publicAddress: string,
+  queryCondition: Object = {}
+) => {
   await prisma.$connect();
   return prisma.transactionInfo
     .findMany({
       where: {
         publicAddress: publicAddress,
+        ...queryCondition,
       },
     })
     .then(async (transaction: TransactionInfo[] | null) => {
