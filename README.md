@@ -30,6 +30,12 @@ Backend for www project
     yarn dev
     ```
 
+- Or you can start using this script
+
+    ```bash
+    yarn start
+    ```
+
 ## Cron Jobs & Services
 
 - Buy token service
