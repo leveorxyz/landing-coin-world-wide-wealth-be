@@ -5,9 +5,9 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "www-be.up.railway.app",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "paths": {
     "/auth/login": {
       "post": {
