@@ -6,10 +6,14 @@ import {
   getPropertyById,
   updateTenantStatus,
 } from "../controllers/property.controller";
+import { authMiddleware } from "../utils/middlewares";
 
 const router = express.Router();
 
-router.route("/create").post(createProperty).all(methodNotAllowed);
+router
+  .route("/create")
+  .post(authMiddleware, createProperty)
+  .all(methodNotAllowed);
 router.route("/").get(getAllProperties).all(methodNotAllowed);
 router
   .route("/:id")

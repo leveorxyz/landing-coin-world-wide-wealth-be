@@ -84,3 +84,24 @@ export const updateProperty = async (id: string, status: boolean) => {
       throw e;
     });
 };
+
+export const updatePropertyDueDate = async (id: string, newDueDate: string) => {
+  await prisma.$connect();
+  return prisma.property
+    .update({
+      where: {
+        id,
+      },
+      data: {
+        rentDueDate: newDueDate,
+      },
+    })
+    .then(async (property: Property | null) => {
+      await prisma.$disconnect();
+      return property;
+    })
+    .catch(async (e: Error) => {
+      await prisma.$disconnect();
+      throw e;
+    });
+};
