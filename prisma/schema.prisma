@@ -31,3 +31,12 @@ model Property {
   createdAt    DateTime @default(now())
   rentDueDate  String
 }
+
+model TransactionInfo {
+  transactionId String   @id @default(uuid())
+  publicAddress String
+  amount        Int
+  pricePaid     Int
+  createdAt     DateTime @default(now())
+  type          String
+}
