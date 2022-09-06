@@ -341,7 +341,8 @@
           {
             "name": "id",
             "in": "query",
-            "type": "string"
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
