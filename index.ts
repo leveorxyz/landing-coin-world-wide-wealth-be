@@ -21,7 +21,11 @@ const port: number = parseInt(process.env.PORT || "8000");
 
 app.use("/payment", express.raw({ type: "application/json" }), paymentRoute);
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use("/doc", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 

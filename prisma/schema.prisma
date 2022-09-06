@@ -3,11 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model User {
@@ -48,5 +50,5 @@ model RentCollected {
   year       String
   rent       Int
   propertyId String
-  Property   Property @relation(fields: [propertyId], references: [id])
+  Property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
