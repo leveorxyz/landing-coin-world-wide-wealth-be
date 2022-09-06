@@ -24,7 +24,7 @@ export const createRent = async (
     });
 };
 
-export const getAllRentCollectedbyPropertyId = async (propertyId: string) => {
+export const getAllRentByPropertyId = async (propertyId: string) => {
   await prisma.$connect();
   return prisma.rentCollected
     .findMany({
