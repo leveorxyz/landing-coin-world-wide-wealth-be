@@ -53,14 +53,18 @@ export const postWebhook = async (req: Request, res: Response) => {
 };
 
 export const rentCollectionWebhook = async (req: Request, res: Response) => {
+  const stripeRentInstance = new stripe(process.env.RENT_STRIPE_SECRET_KEY!, {
+    apiVersion: "2022-08-01",
+  });
+  const rentEndpointSecret = process.env.RENT_ENDPOINT_SECRET!;
   const stripeSignature = req.headers["stripe-signature"];
   let event;
 
   try {
-    event = stripeInstance.webhooks.constructEvent(
+    event = stripeRentInstance.webhooks.constructEvent(
       req.body,
       stripeSignature!,
-      endpointSecret
+      rentEndpointSecret
     );
   } catch (err: any) {
     console.log(err.message);
@@ -103,5 +107,5 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
       return wrappedResponse(res, "rent collection success", 200, null);
     }
   }
-  return res.status(400).send({});
+  return res.status(200).send({});
 };
