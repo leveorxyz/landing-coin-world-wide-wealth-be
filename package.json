@@ -19,6 +19,7 @@
     "@types/node": "^18.7.13",
     "@types/stripe": "^8.0.417",
     "@types/swagger-ui-express": "^4.1.3",
+    "@types/web3": "^1.2.2",
     "concurrently": "^7.3.0",
     "nodemon": "^2.0.19",
     "prisma": "^4.2.1",
@@ -35,6 +36,7 @@
     "jsonwebtoken": "^8.5.1",
     "radash": "^7.0.1",
     "stripe": "^10.7.0",
-    "swagger-ui-express": "^4.5.0"
+    "swagger-ui-express": "^4.5.0",
+    "web3": "^1.7.5"
   }
 }
