@@ -116,6 +116,12 @@
         "description": "",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
             "name": "body",
             "in": "body",
             "schema": {
