@@ -2,6 +2,7 @@ import {
   findPropertyById,
   updatePropertyDueDate,
 } from "../datasource/property.datasource";
+import { createRentCollected } from "../datasource/rent.datasource";
 import { Request, Response } from "express";
 import { wrappedResponse } from "../utils/functions";
 
@@ -46,4 +47,36 @@ export const payRentByAdmin = async (req: Request, res: Response) => {
         );
   await updatePropertyDueDate(property.id, nextDate.toISOString());
   return wrappedResponse(res, "Updated successfuly", 200, null);
+};
+
+export const payWithLANDC = async (req: Request, res: Response) => {
+  const { amount, propertyId } = req.body;
+  const property = await findPropertyById(propertyId);
+  if (!property) {
+    return wrappedResponse(res, "Property not found", 404, null);
+  }
+  let currentDate = new Date();
+  let nextDate =
+    currentDate.getUTCMonth() === 11
+      ? new Date(
+          currentDate.getUTCFullYear(),
+          0,
+          1,
+          Math.round(-currentDate.getTimezoneOffset() / 60)
+        )
+      : new Date(
+          currentDate.getUTCFullYear(),
+          currentDate.getUTCMonth() + 1,
+          1,
+          Math.round(-currentDate.getTimezoneOffset() / 60)
+        );
+  await createRentCollected(
+    propertyId,
+    amount,
+    (currentDate.getUTCMonth() + 1).toString(),
+    currentDate.getUTCFullYear().toString()
+  );
+
+  await updatePropertyDueDate(property.id, nextDate.toISOString());
+  return wrappedResponse(res, "rent collection success", 200, null);
 };

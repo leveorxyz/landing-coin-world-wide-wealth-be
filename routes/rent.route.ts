@@ -1,6 +1,10 @@
 import express from "express";
 
-import { getRentDue, payRentByAdmin } from "../controllers/rent.controller";
+import {
+  getRentDue,
+  payRentByAdmin,
+  payWithLANDC,
+} from "../controllers/rent.controller";
 import { methodNotAllowed } from "../utils/functions";
 import { authMiddleware } from "../utils/middlewares";
 
@@ -11,5 +15,6 @@ router
   .route("/admin-pay")
   .post(authMiddleware, payRentByAdmin)
   .all(methodNotAllowed);
+router.route("/landc-pay").post(payWithLANDC).all(methodNotAllowed);
 
 export default router;
