@@ -41,3 +41,29 @@ export const getAllRentByPropertyId = async (propertyId: string) => {
       throw e;
     });
 };
+
+export const createRentCollected = async (
+  id: string,
+  amount: number,
+  month: string,
+  year: string
+) => {
+  await prisma.$connect();
+  return prisma.rentCollected
+    .create({
+      data: {
+        propertyId: id,
+        rent: amount,
+        month: month,
+        year: year,
+      },
+    })
+    .then(async (rent: RentCollected | null) => {
+      await prisma.$disconnect();
+      return rent;
+    })
+    .catch(async (e: Error) => {
+      await prisma.$disconnect();
+      throw e;
+    });
+};
