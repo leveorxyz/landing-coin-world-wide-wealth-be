@@ -116,6 +116,12 @@
         "description": "",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
             "name": "body",
             "in": "body",
             "schema": {
@@ -402,6 +408,53 @@
                 "message": {
                   "type": "string",
                   "example": "Updated successfuly"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "null",
+                  "example": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rent/landc-pay": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "example": 100,
+                  "type": "integer"
+                },
+                "propertyId": {
+                  "example": "any",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Rent collection success"
                 },
                 "statusCode": {
                   "type": "integer",

@@ -26,7 +26,7 @@ export const disburseAmount = async (amount: number) => {
         currency: "usd",
       });
     } catch (e: any) {
-      console.log(e);
+      // console.log(e);
     }
   });
 };
