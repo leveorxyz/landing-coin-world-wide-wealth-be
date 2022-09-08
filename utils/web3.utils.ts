@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import OracleAbi from "../abis/oracle.json";
+import ProtocolAbi from "../abis/protocol.json";
 
 const createWeb3WithAccount = () => {
   const web3 = new Web3(process.env.RPC_URL!);
@@ -16,4 +17,10 @@ export const oracleContract = new web3.eth.Contract(
   //@ts-ignore
   OracleAbi,
   process.env.ORACLE_CONTRACT_ADDRESS
+);
+
+export const protocolContract = new web3.eth.Contract(
+  //@ts-ignore
+  ProtocolAbi,
+  process.env.PROTOCOL_CONTRACT_ADDRESS
 );

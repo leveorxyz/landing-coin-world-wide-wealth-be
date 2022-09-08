@@ -13,6 +13,10 @@ export const getRentDue = async (req: Request, res: Response) => {
     return wrappedResponse(res, "Property not found", 404, null);
   }
 
+  if (!property.rentDueDate) {
+    return wrappedResponse(res, "Due rent calculated successfully", 200, 0);
+  }
+
   const currentDate = new Date();
   const lastPaymentDate = new Date(property.rentDueDate as string);
   let months =
