@@ -18,3 +18,7 @@ type TokenBuyPayload = {
   publicAddress: string;
   amount: string;
 };
+
+type RentCollectionPayload = {
+  propertyId: string;
+};
