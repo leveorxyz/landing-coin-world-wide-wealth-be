@@ -7,8 +7,7 @@ export const createNewProperty = async (
   location: string,
   image: string,
   legalDoc: string,
-  tenantStatus: boolean,
-  rentDueDate: string
+  tenantStatus: boolean
 ) => {
   return prisma.property.create({
     data: {
@@ -19,7 +18,6 @@ export const createNewProperty = async (
       image: image,
       legalDoc: legalDoc,
       tenantStatus: tenantStatus,
-      rentDueDate: rentDueDate,
     },
   });
 };

@@ -14,16 +14,8 @@ const stringHex = require("string-hex");
 
 export const createProperty = async (req: Request, res: Response) => {
   try {
-    const {
-      name,
-      boughtFrom,
-      price,
-      location,
-      image,
-      legalDoc,
-      tenantStatus,
-      rentDueDate,
-    } = req.body as Property;
+    const { name, boughtFrom, price, location, image, legalDoc, tenantStatus } =
+      req.body as Property;
     const property = await createNewProperty(
       name,
       boughtFrom,
@@ -31,8 +23,7 @@ export const createProperty = async (req: Request, res: Response) => {
       location,
       image,
       legalDoc,
-      tenantStatus,
-      rentDueDate
+      tenantStatus
     );
 
     protocolContract.methods
