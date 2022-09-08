@@ -2,7 +2,7 @@ import prisma from "../configs/prisma.config";
 
 export const createTransaction = async (
   publicAddress: string,
-  amount: number,
+  amount: string,
   pricePaid: number,
   type: string
 ) => {

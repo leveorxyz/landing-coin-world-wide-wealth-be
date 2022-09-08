@@ -4,7 +4,7 @@ import {
 } from "../datasource/property.datasource";
 import { createRentCollected } from "../datasource/rent.datasource";
 import { Request, Response } from "express";
-import { wrappedResponse } from "../utils/functions";
+import { generateNextDueDate, wrappedResponse } from "../utils/functions";
 
 export const getRentDue = async (req: Request, res: Response) => {
   const property = await findPropertyById((req.query.id || "") as string);
@@ -33,23 +33,8 @@ export const payRentByAdmin = async (req: Request, res: Response) => {
   if (!property) {
     return wrappedResponse(res, "Property not found", 404, null);
   }
-
-  let currentDate = new Date();
-  let nextDate =
-    currentDate.getUTCMonth() === 11
-      ? new Date(
-          currentDate.getUTCFullYear(),
-          0,
-          1,
-          Math.round(-currentDate.getTimezoneOffset() / 60)
-        )
-      : new Date(
-          currentDate.getUTCFullYear(),
-          currentDate.getUTCMonth() + 1,
-          1,
-          Math.round(-currentDate.getTimezoneOffset() / 60)
-        );
-  await updatePropertyDueDate(property.id, nextDate.toISOString());
+  let nextDate = generateNextDueDate();
+  await updatePropertyDueDate(property.id, nextDate);
   return wrappedResponse(res, "Updated successfuly", 200, null);
 };
 
@@ -60,20 +45,7 @@ export const payWithLANDC = async (req: Request, res: Response) => {
     return wrappedResponse(res, "Property not found", 404, null);
   }
   let currentDate = new Date();
-  let nextDate =
-    currentDate.getUTCMonth() === 11
-      ? new Date(
-          currentDate.getUTCFullYear(),
-          0,
-          1,
-          Math.round(-currentDate.getTimezoneOffset() / 60)
-        )
-      : new Date(
-          currentDate.getUTCFullYear(),
-          currentDate.getUTCMonth() + 1,
-          1,
-          Math.round(-currentDate.getTimezoneOffset() / 60)
-        );
+  let nextDate = generateNextDueDate();
   await createRentCollected(
     propertyId,
     amount,
@@ -81,6 +53,6 @@ export const payWithLANDC = async (req: Request, res: Response) => {
     currentDate.getUTCFullYear().toString()
   );
 
-  await updatePropertyDueDate(property.id, nextDate.toISOString());
+  await updatePropertyDueDate(property.id, nextDate);
   return wrappedResponse(res, "rent collection success", 200, null);
 };

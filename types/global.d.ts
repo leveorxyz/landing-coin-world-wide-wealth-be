@@ -13,3 +13,9 @@ type JWTPayload = {
   iat: number | undefined;
   exp: number | undefined;
 };
+
+type TokenBuyPayload = {
+  action: string;
+  publicAddress: string;
+  amount: string;
+};
