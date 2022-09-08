@@ -41,7 +41,7 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
   return wrappedResponse(res, "Payment intent created", 200, paymentIntent);
 };
 
-export const creatRentPaymentIntent = async (req: Request, res: Response) => {
+export const createRentPaymentIntent = async (req: Request, res: Response) => {
   const paymentIntent = await stripeRentInstance.paymentIntents.create({
     amount: req.body.amount,
     currency: "usd",
