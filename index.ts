@@ -13,6 +13,7 @@ import { authMiddleware } from "./utils/middlewares";
 import fundDisburseCron from "./cronjobs/disbursement";
 import swaggerFile from "./swagger/swagger.json";
 import { wrappedResponse } from "./utils/functions";
+import prisma from "./configs/prisma.config";
 
 dotenv.config();
 
@@ -47,12 +48,14 @@ app.use(function onError(
   return wrappedResponse(res, err.message, 500, null);
 });
 
-const server = app.listen(port, () => {
+const server = app.listen(port, async () => {
   fundDisburseCron.start();
+  await prisma.$connect();
   console.log(`⚡️[server]: Server is running on port ${port}`);
 });
 
-process.on("SIGINT", () => {
+process.on("SIGINT", async () => {
+  await prisma.$disconnect();
   server.close();
   console.log("[server]: Server closed on SIGINT");
 });
