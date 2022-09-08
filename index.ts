@@ -45,6 +45,7 @@ app.use(function onError(
   res: Response,
   next: NextFunction
 ) {
+  console.log(err);
   return wrappedResponse(res, err.message, 500, null);
 });
 

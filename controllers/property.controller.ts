@@ -10,6 +10,8 @@ import { getAllRentByPropertyId } from "../datasource/rent.datasource";
 import { wrappedResponse } from "../utils/functions";
 import { protocolContract, web3 } from "../utils/web3.utils";
 
+const stringHex = require("string-hex");
+
 export const createProperty = async (req: Request, res: Response) => {
   try {
     const {
@@ -33,8 +35,12 @@ export const createProperty = async (req: Request, res: Response) => {
       rentDueDate
     );
 
-    await protocolContract.methods
-      .addProperty(property.id, property.image, property.legalDoc)
+    protocolContract.methods
+      .addProperty(
+        property.id,
+        "0x" + stringHex(property.image),
+        "0x" + stringHex(property.legalDoc)
+      )
       .send({
         gas: 2600000,
         gasPrice: 3650000000,
@@ -43,6 +49,7 @@ export const createProperty = async (req: Request, res: Response) => {
 
     return wrappedResponse(res, "Property created successfully", 201, property);
   } catch (e: any) {
+    console.log(e);
     return wrappedResponse(res, e.message, 500, null);
   }
 };
