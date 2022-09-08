@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import stripe from "stripe";
 import { Request, Response } from "express";
-import { wrappedResponse } from "../utils/functions";
+import { parseParam, wrappedResponse } from "../utils/functions";
 import { disburseAmount } from "../service/payment.service";
 import { oracleContract, web3 } from "../utils/web3.utils";
 import {
@@ -35,7 +35,9 @@ export const postWebhook = async (req: Request, res: Response) => {
   // Handle the event
   if (event.type === "charge.succeeded") {
     const jsonBody = JSON.parse(req.body.toString());
-    const descriptionJson = JSON.parse(jsonBody.data.object.description);
+    const descriptionJson = parseParam(
+      jsonBody.data.object.description
+    ) as TokenBuyPayload;
     if (descriptionJson.action === "Buy Token") {
       await createTransaction(
         descriptionJson.publicAddress,

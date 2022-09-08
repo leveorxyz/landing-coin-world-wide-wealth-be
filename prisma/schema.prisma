@@ -38,7 +38,7 @@ model Property {
 model TransactionInfo {
   transactionId String   @id @default(uuid())
   publicAddress String
-  amount        Int
+  amount        String
   pricePaid     Int
   createdAt     DateTime @default(now())
   type          String

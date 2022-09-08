@@ -18,3 +18,13 @@ export const wrappedResponse = (
     result,
   });
 };
+
+export const parseParam = (paramString: string) => {
+  const params = paramString.split("&");
+  const result = {};
+  params.forEach((paramCouple: string) => {
+    const [key, value] = paramCouple.split("=");
+    (result as any)[key] = value;
+  });
+  return result;
+};
