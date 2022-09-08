@@ -29,14 +29,7 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
     description: req.body.description,
   });
   console.log(paymentIntent);
-  res.send(
-    wrappedResponse(
-      res,
-      "Payment intent created",
-      200,
-      paymentIntent.client_secret
-    )
-  );
+  return wrappedResponse(res, "Payment intent created", 200, paymentIntent);
 };
 
 export const postWebhook = async (req: Request, res: Response) => {
