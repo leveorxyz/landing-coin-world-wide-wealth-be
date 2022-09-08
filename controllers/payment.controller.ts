@@ -21,6 +21,17 @@ const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 const endpointSecret = process.env.ENDPOINT_SECRET!;
 
+export const createPaymentIntent = async (req: Request, res: Response) => {
+  const paymentIntent = await stripeInstance.paymentIntents.create({
+    amount: req.body.amount,
+    currency: "usd",
+    payment_method_types: ["card"],
+    description: req.body.description,
+  });
+  console.log(paymentIntent);
+  return wrappedResponse(res, "Payment intent created", 200, paymentIntent);
+};
+
 export const postWebhook = async (req: Request, res: Response) => {
   const stripeSignature = req.headers["stripe-signature"];
   let event;
