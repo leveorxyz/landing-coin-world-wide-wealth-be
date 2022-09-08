@@ -29,7 +29,7 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
     description: req.body.description,
     metadata: {
       amount: req.body.amount,
-      walletAddress: req.body.walletAddress,
+      publicAddress: req.body.publicAddress,
     },
   });
   console.log(paymentIntent);
@@ -50,15 +50,14 @@ export const postWebhook = async (req: Request, res: Response) => {
     console.log(err.message);
     return wrappedResponse(res, `Webhook error ${err.message}`, 400, null);
   }
-
-  console.log(JSON.parse(req.body.toString()));
   // Handle the event
   if (event.type === "charge.succeeded") {
     const jsonBody = JSON.parse(req.body.toString());
-    const metadata = parseParam(
-      jsonBody.data.object.metadata
-    ) as TokenBuyPayload;
     if (jsonBody.data.object.description === "Buy LANDC") {
+      const metadata = jsonBody.data.object.metadata as TokenBuyPayload;
+
+      console.log(jsonBody.data.object.metadata);
+
       await createTransaction(
         metadata.publicAddress,
         metadata.amount,
