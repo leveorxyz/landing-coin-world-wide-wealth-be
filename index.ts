@@ -47,7 +47,12 @@ app.use(function onError(
   return wrappedResponse(res, err.message, 500, null);
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   fundDisburseCron.start();
   console.log(`⚡️[server]: Server is running on port ${port}`);
+});
+
+process.on("SIGINT", () => {
+  server.close();
+  console.log("[server]: Server closed on SIGINT");
 });
