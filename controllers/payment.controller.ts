@@ -1,13 +1,18 @@
 import dotenv from "dotenv";
 import stripe from "stripe";
 import { Request, Response } from "express";
-import { wrappedResponse } from "../utils/functions";
+import {
+  generateNextDueDate,
+  parseParam,
+  wrappedResponse,
+} from "../utils/functions";
 import { disburseAmount } from "../service/payment.service";
 import { oracleContract, web3 } from "../utils/web3.utils";
 import {
   findPropertyById,
   updatePropertyDueDate,
 } from "../datasource/property.datasource";
+import { createTransaction } from "../datasource/transaction.datasource";
 import { createRentCollected } from "../datasource/rent.datasource";
 dotenv.config();
 
@@ -34,7 +39,16 @@ export const postWebhook = async (req: Request, res: Response) => {
   // Handle the event
   if (event.type === "charge.succeeded") {
     const jsonBody = JSON.parse(req.body.toString());
-    if (jsonBody.data.object.description === "Buy Token") {
+    const descriptionJson = parseParam(
+      jsonBody.data.object.description
+    ) as TokenBuyPayload;
+    if (descriptionJson.action === "Buy Token") {
+      await createTransaction(
+        descriptionJson.publicAddress,
+        descriptionJson.amount,
+        jsonBody.data.object.amount,
+        "Buy"
+      );
       oracleContract.methods
         .addBuyTx(
           jsonBody.data.object.balance_transaction,
@@ -81,20 +95,7 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
         return wrappedResponse(res, "Property not found", 404, null);
       }
       let currentDate = new Date();
-      let nextDate =
-        currentDate.getUTCMonth() === 11
-          ? new Date(
-              currentDate.getUTCFullYear(),
-              0,
-              1,
-              Math.round(-currentDate.getTimezoneOffset() / 60)
-            )
-          : new Date(
-              currentDate.getUTCFullYear(),
-              currentDate.getUTCMonth() + 1,
-              1,
-              Math.round(-currentDate.getTimezoneOffset() / 60)
-            );
+      let nextDate = generateNextDueDate();
       let amount = jsonBody.data.object.amount as number;
       await createRentCollected(
         propertyId,
@@ -103,7 +104,7 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
         currentDate.getUTCFullYear().toString()
       );
 
-      await updatePropertyDueDate(property.id, nextDate.toISOString());
+      await updatePropertyDueDate(property.id, nextDate);
       return wrappedResponse(res, "rent collection success", 200, null);
     }
   }

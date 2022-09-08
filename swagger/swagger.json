@@ -154,10 +154,6 @@
                 "tenantStatus": {
                   "type": "boolean",
                   "example": false
-                },
-                "rentDueDate": {
-                  "type": "string",
-                  "example": "any"
                 }
               }
             }

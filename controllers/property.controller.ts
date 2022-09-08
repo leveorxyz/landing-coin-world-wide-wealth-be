@@ -5,9 +5,10 @@ import {
   findAllProperties,
   createNewProperty,
   updateProperty,
+  updatePropertyDueDate,
 } from "../datasource/property.datasource";
 import { getAllRentByPropertyId } from "../datasource/rent.datasource";
-import { wrappedResponse } from "../utils/functions";
+import { generateNextDueDate, wrappedResponse } from "../utils/functions";
 import { protocolContract, web3 } from "../utils/web3.utils";
 
 const stringHex = require("string-hex");
@@ -80,6 +81,12 @@ export const updateTenantStatus = async (req: Request, res: Response) => {
     const { tenantStatus } = req.body;
     const property = await findPropertyById(id);
     if (property) {
+      if (tenantStatus) {
+        let nextDate = generateNextDueDate();
+        await updatePropertyDueDate(property.id, nextDate);
+      } else {
+        await updatePropertyDueDate(property.id, null);
+      }
       const updateTenant = await updateProperty(id, tenantStatus);
       return wrappedResponse(
         res,
