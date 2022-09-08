@@ -7,6 +7,7 @@ import demoRoute from "./routes/demo";
 import authRoute from "./routes/auth.route";
 import propertyRoute from "./routes/property.route";
 import paymentRoute from "./routes/payment.route";
+import stripeRoute from "./routes/stripe.route";
 import rentRoute from "./routes/rent.route";
 
 import { authMiddleware } from "./utils/middlewares";
@@ -34,6 +35,7 @@ app.use("/hello", authMiddleware, demoRoute);
 app.use("/auth", authRoute);
 app.use("/property", propertyRoute);
 app.use("/rent", rentRoute);
+app.use("/stripe", stripeRoute);
 
 app.use("*", (_: Request, res: Response) => {
   return wrappedResponse(res, "Not Found", 404, null);
