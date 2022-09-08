@@ -19,7 +19,13 @@ dotenv.config();
 const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-08-01",
 });
+const stripeRentInstance = new stripe(process.env.RENT_STRIPE_SECRET_KEY!, {
+  apiVersion: "2022-08-01",
+});
+
 const endpointSecret = process.env.ENDPOINT_SECRET!;
+
+const rentEndpointSecret = process.env.RENT_ENDPOINT_SECRET!;
 
 export const createPaymentIntent = async (req: Request, res: Response) => {
   const paymentIntent = await stripeInstance.paymentIntents.create({
@@ -32,8 +38,25 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
       publicAddress: req.body.publicAddress,
     },
   });
-  console.log(paymentIntent);
   return wrappedResponse(res, "Payment intent created", 200, paymentIntent);
+};
+
+export const creatRentPaymentIntent = async (req: Request, res: Response) => {
+  const paymentIntent = await stripeRentInstance.paymentIntents.create({
+    amount: req.body.amount,
+    currency: "usd",
+    payment_method_types: ["card"],
+    description: req.body.description,
+    metadata: {
+      propertyId: req.body.propertyId,
+    },
+  });
+  return wrappedResponse(
+    res,
+    "Rent Payment intent created",
+    200,
+    paymentIntent
+  );
 };
 
 export const postWebhook = async (req: Request, res: Response) => {
@@ -82,10 +105,6 @@ export const postWebhook = async (req: Request, res: Response) => {
 };
 
 export const rentCollectionWebhook = async (req: Request, res: Response) => {
-  const stripeRentInstance = new stripe(process.env.RENT_STRIPE_SECRET_KEY!, {
-    apiVersion: "2022-08-01",
-  });
-  const rentEndpointSecret = process.env.RENT_ENDPOINT_SECRET!;
   const stripeSignature = req.headers["stripe-signature"];
   let event;
 
@@ -103,8 +122,10 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
   // Handle the event
   if (event.type === "charge.succeeded") {
     const jsonBody = JSON.parse(req.body.toString());
-    if (jsonBody.data.object.description) {
-      const propertyId = jsonBody.data.object.description;
+    if (jsonBody.data.object.description === "Rent Collection") {
+      //const propertyId = jsonBody.data.object.description;
+      const metadata = jsonBody.data.object.metadata as RentCollectionPayload;
+      const propertyId = metadata.propertyId;
       const property = await findPropertyById(propertyId);
       if (!property) {
         return wrappedResponse(res, "Property not found", 404, null);
