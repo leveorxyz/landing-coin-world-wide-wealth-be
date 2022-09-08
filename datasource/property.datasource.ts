@@ -45,7 +45,10 @@ export const updateProperty = async (id: string, status: boolean) => {
   });
 };
 
-export const updatePropertyDueDate = async (id: string, newDueDate: string) => {
+export const updatePropertyDueDate = async (
+  id: string,
+  newDueDate: string | null
+) => {
   return prisma.property.update({
     where: {
       id,
