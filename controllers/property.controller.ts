@@ -8,7 +8,7 @@ import {
   updatePropertyDueDate,
 } from "../datasource/property.datasource";
 import { getAllRentByPropertyId } from "../datasource/rent.datasource";
-import { wrappedResponse } from "../utils/functions";
+import { generateNextDueDate, wrappedResponse } from "../utils/functions";
 import { protocolContract, web3 } from "../utils/web3.utils";
 
 const stringHex = require("string-hex");
@@ -82,22 +82,8 @@ export const updateTenantStatus = async (req: Request, res: Response) => {
     const property = await findPropertyById(id);
     if (property) {
       if (tenantStatus) {
-        let currentDate = new Date();
-        let nextDate =
-          currentDate.getUTCMonth() === 11
-            ? new Date(
-                currentDate.getUTCFullYear(),
-                0,
-                1,
-                Math.round(-currentDate.getTimezoneOffset() / 60)
-              )
-            : new Date(
-                currentDate.getUTCFullYear(),
-                currentDate.getUTCMonth() + 1,
-                1,
-                Math.round(-currentDate.getTimezoneOffset() / 60)
-              );
-        await updatePropertyDueDate(property.id, nextDate.toISOString());
+        let nextDate = generateNextDueDate();
+        await updatePropertyDueDate(property.id, nextDate);
       } else {
         await updatePropertyDueDate(property.id, null);
       }

@@ -28,3 +28,22 @@ export const parseParam = (paramString: string) => {
   });
   return result;
 };
+
+export const generateNextDueDate = () => {
+  let currentDate = new Date();
+  let nextDate =
+    currentDate.getUTCMonth() === 11
+      ? new Date(
+          currentDate.getUTCFullYear(),
+          0,
+          1,
+          Math.round(-currentDate.getTimezoneOffset() / 60)
+        )
+      : new Date(
+          currentDate.getUTCFullYear(),
+          currentDate.getUTCMonth() + 1,
+          1,
+          Math.round(-currentDate.getTimezoneOffset() / 60)
+        );
+  return nextDate.toISOString();
+};
