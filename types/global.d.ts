@@ -15,7 +15,6 @@ type JWTPayload = {
 };
 
 type TokenBuyPayload = {
-  action: string;
   publicAddress: string;
   amount: string;
 };
