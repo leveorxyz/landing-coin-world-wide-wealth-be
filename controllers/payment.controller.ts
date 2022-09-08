@@ -94,7 +94,7 @@ export const postWebhook = async (req: Request, res: Response) => {
         )
         .send({
           gas: 2600000,
-          gasPrice: 3650000000,
+          gasPrice: 4000000000,
           from: web3.eth.defaultAccount,
         });
     }
