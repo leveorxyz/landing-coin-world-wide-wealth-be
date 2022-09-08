@@ -8,6 +8,7 @@ import {
   findPropertyById,
   updatePropertyDueDate,
 } from "../datasource/property.datasource";
+import { createTransaction } from "../datasource/transaction.datasource";
 import { createRentCollected } from "../datasource/rent.datasource";
 dotenv.config();
 
@@ -34,7 +35,14 @@ export const postWebhook = async (req: Request, res: Response) => {
   // Handle the event
   if (event.type === "charge.succeeded") {
     const jsonBody = JSON.parse(req.body.toString());
-    if (jsonBody.data.object.description === "Buy Token") {
+    const descriptionJson = JSON.parse(jsonBody.data.object.description);
+    if (descriptionJson.action === "Buy Token") {
+      await createTransaction(
+        descriptionJson.publicAddress,
+        descriptionJson.amount,
+        jsonBody.data.object.amount,
+        "Buy"
+      );
       oracleContract.methods
         .addBuyTx(
           jsonBody.data.object.balance_transaction,
