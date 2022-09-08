@@ -1,6 +1,4 @@
-import { PrismaClient, Property } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../configs/prisma.config";
 
 export const createNewProperty = async (
   name: string,
@@ -12,96 +10,50 @@ export const createNewProperty = async (
   tenantStatus: boolean,
   rentDueDate: string
 ) => {
-  await prisma.$connect();
-  return prisma.property
-    .create({
-      data: {
-        name: name,
-        boughtFrom: boughtFrom,
-        price: price,
-        location: location,
-        image: image,
-        legalDoc: legalDoc,
-        tenantStatus: tenantStatus,
-        rentDueDate: rentDueDate,
-      },
-    })
-    .then(async (property: Property | null) => {
-      await prisma.$disconnect();
-      return property;
-    });
+  return prisma.property.create({
+    data: {
+      name: name,
+      boughtFrom: boughtFrom,
+      price: price,
+      location: location,
+      image: image,
+      legalDoc: legalDoc,
+      tenantStatus: tenantStatus,
+      rentDueDate: rentDueDate,
+    },
+  });
 };
 
 export const findPropertyById = async (id: string) => {
-  await prisma.$connect();
-  return prisma.property
-    .findUnique({
-      where: {
-        id,
-      },
-    })
-    .then(async (property: Property | null) => {
-      await prisma.$disconnect();
-      return property;
-    })
-    .catch(async (e: Error) => {
-      await prisma.$disconnect();
-      throw e;
-    });
+  return prisma.property.findUnique({
+    where: {
+      id,
+    },
+  });
 };
 
 export const findAllProperties = async () => {
-  await prisma.$connect();
-  return prisma.property
-    .findMany()
-    .then(async (properties: Property[] | null) => {
-      await prisma.$disconnect();
-      return properties;
-    })
-    .catch(async (e: Error) => {
-      await prisma.$disconnect();
-      throw e;
-    });
+  return prisma.property.findMany();
 };
 
 export const updateProperty = async (id: string, status: boolean) => {
-  await prisma.$connect();
-  return prisma.property
-    .update({
-      where: {
-        id,
-      },
-      data: {
-        tenantStatus: status,
-      },
-    })
-    .then(async (property: Property | null) => {
-      await prisma.$disconnect();
-      return property;
-    })
-    .catch(async (e: Error) => {
-      await prisma.$disconnect();
-      throw e;
-    });
+  return prisma.property.update({
+    where: {
+      id,
+    },
+    data: {
+      tenantStatus: status,
+    },
+  });
 };
 
 export const updatePropertyDueDate = async (id: string, newDueDate: string) => {
-  await prisma.$connect();
-  return prisma.property
-    .update({
-      where: {
-        id,
-      },
-      data: {
-        rentDueDate: newDueDate,
-      },
-    })
-    .then(async (property: Property | null) => {
-      await prisma.$disconnect();
-      return property;
-    })
-    .catch(async (e: Error) => {
-      await prisma.$disconnect();
-      throw e;
-    });
+  return prisma.property.update({
+    where: {
+      id,
+    },
+    data: {
+      rentDueDate: newDueDate,
+    },
+  });
 };

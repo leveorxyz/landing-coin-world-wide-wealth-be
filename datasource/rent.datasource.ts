@@ -1,6 +1,4 @@
-import { PrismaClient, RentCollected } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../configs/prisma.config";
 
 export const createRent = async (
   rent: number,
@@ -8,38 +6,22 @@ export const createRent = async (
   month: string,
   propertyId: string
 ) => {
-  await prisma.$connect();
-  return prisma.rentCollected
-    .create({
-      data: {
-        rent: rent,
-        year: year,
-        month: month,
-        propertyId: propertyId,
-      },
-    })
-    .then(async (rent: RentCollected | null) => {
-      await prisma.$disconnect();
-      return rent;
-    });
+  return prisma.rentCollected.create({
+    data: {
+      rent: rent,
+      year: year,
+      month: month,
+      propertyId: propertyId,
+    },
+  });
 };
 
 export const getAllRentByPropertyId = async (propertyId: string) => {
-  await prisma.$connect();
-  return prisma.rentCollected
-    .findMany({
-      where: {
-        propertyId: propertyId,
-      },
-    })
-    .then(async (rent: RentCollected[] | null) => {
-      await prisma.$disconnect();
-      return rent;
-    })
-    .catch(async (e: Error) => {
-      await prisma.$disconnect();
-      throw e;
-    });
+  return prisma.rentCollected.findMany({
+    where: {
+      propertyId: propertyId,
+    },
+  });
 };
 
 export const createRentCollected = async (
@@ -48,22 +30,12 @@ export const createRentCollected = async (
   month: string,
   year: string
 ) => {
-  await prisma.$connect();
-  return prisma.rentCollected
-    .create({
-      data: {
-        propertyId: id,
-        rent: amount,
-        month: month,
-        year: year,
-      },
-    })
-    .then(async (rent: RentCollected | null) => {
-      await prisma.$disconnect();
-      return rent;
-    })
-    .catch(async (e: Error) => {
-      await prisma.$disconnect();
-      throw e;
-    });
+  return prisma.rentCollected.create({
+    data: {
+      propertyId: id,
+      rent: amount,
+      month: month,
+      year: year,
+    },
+  });
 };
