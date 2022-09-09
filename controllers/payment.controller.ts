@@ -132,7 +132,7 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
       }
       let currentDate = new Date();
       let nextDate = generateNextDueDate();
-      let amount = jsonBody.data.object.amount as number;
+      let amount = Math.round((jsonBody.data.object.amount as number) / 100);
       await createRentCollected(
         propertyId,
         amount,

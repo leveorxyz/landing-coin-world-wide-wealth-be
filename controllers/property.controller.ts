@@ -78,11 +78,11 @@ export const getPropertyById = async (req: Request, res: Response) => {
 export const updateTenantStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { tenantStatus } = req.body;
+    const { tenantStatus, dueDate } = req.body;
     const property = await findPropertyById(id);
     if (property) {
       if (tenantStatus) {
-        let nextDate = generateNextDueDate();
+        let nextDate = dueDate ?? generateNextDueDate();
         await updatePropertyDueDate(property.id, nextDate);
       } else {
         await updatePropertyDueDate(property.id, null);
