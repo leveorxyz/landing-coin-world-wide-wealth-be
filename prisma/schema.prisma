@@ -2,13 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
@@ -44,11 +44,17 @@ model TransactionInfo {
   type          String
 }
 
+enum PaymentType {
+  USD
+  LANDC
+}
+
 model RentCollected {
-  id         String   @id @default(uuid())
-  month      String
-  year       String
-  rent       Int
-  propertyId String
-  Property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  id           String       @id @default(uuid())
+  month        String
+  year         String
+  rent         Int
+  paymentType PaymentType?
+  propertyId   String
+  Property     Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }

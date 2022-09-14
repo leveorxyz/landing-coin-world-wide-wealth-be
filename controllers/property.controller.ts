@@ -9,7 +9,7 @@ import {
 } from "../datasource/property.datasource";
 import { getAllRentByPropertyId } from "../datasource/rent.datasource";
 import { generateNextDueDate, wrappedResponse } from "../utils/functions";
-import { protocolContract, web3 } from "../utils/web3.utils";
+import { landingTokenContract, web3 } from "../utils/web3.utils";
 
 const stringHex = require("string-hex");
 
@@ -27,7 +27,7 @@ export const createProperty = async (req: Request, res: Response) => {
       tenantStatus
     );
 
-    protocolContract.methods
+    landingTokenContract.methods
       .addProperty(
         property.id,
         "0x" + stringHex(property.image),
@@ -35,7 +35,7 @@ export const createProperty = async (req: Request, res: Response) => {
       )
       .send({
         gas: 2600000,
-        gasPrice: 3650000000,
+        gasPrice: 6000000000,
         from: web3.eth.defaultAccount,
       });
 

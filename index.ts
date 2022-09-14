@@ -59,6 +59,7 @@ const server = app.listen(port, async () => {
 
 process.on("SIGINT", async () => {
   await prisma.$disconnect();
+  fundDisburseCron.stop();
   server.close();
   console.log("[server]: Server closed on SIGINT");
 });
