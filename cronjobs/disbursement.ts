@@ -1,6 +1,8 @@
 import { CronJob } from "cron";
 
-const fundDisburseCron = new CronJob("0 0 0 7 * *", () => {
+import { landKingTokenContract } from "../utils/web3.utils";
+
+const fundDisburseCron = new CronJob("0 * * * * *", async () => {
   const currentDate = new Date();
   const timeStamp =
     new Date(
@@ -9,7 +11,10 @@ const fundDisburseCron = new CronJob("0 0 0 7 * *", () => {
       1,
       Math.round(-currentDate.getTimezoneOffset() / 60)
     ).getTime() / 1000;
-  console.log("disbursement done");
+
+  const landcUsdValue =
+    (await landKingTokenContract.methods.getPrice().call()) / 1e18;
+  console.log(landcUsdValue);
 });
 
 export default fundDisburseCron;
