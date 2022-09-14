@@ -48,7 +48,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
       .addRentTx(`txn_${txn_id}`, convertAmount)
       .send({
         gas: 2600000,
-        gasPrice: 4000000000,
+        gasPrice: 6000000000,
         from: web3.eth.defaultAccount,
       });
 
@@ -57,7 +57,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
       .convertUSDRentToLandc(convertAmount, `txn_${txn_id}`)
       .send({
         gas: 2600000,
-        gasPrice: 4000000000,
+        gasPrice: 6000000000,
         from: web3.eth.defaultAccount,
       });
 
@@ -79,7 +79,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
     )
     .send({
       gas: 2600000,
-      gasPrice: 4000000000,
+      gasPrice: 6000000000,
       from: web3.eth.defaultAccount,
     });
 });

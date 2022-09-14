@@ -80,8 +80,6 @@ export const postWebhook = async (req: Request, res: Response) => {
     if (jsonBody.data.object.description === "Buy LANDC") {
       const metadata = jsonBody.data.object.metadata as TokenBuyPayload;
 
-      console.log(jsonBody.data.object.metadata);
-
       await createTransaction(
         metadata.publicAddress,
         metadata.amount,
@@ -91,11 +89,11 @@ export const postWebhook = async (req: Request, res: Response) => {
       oracleContract.methods
         .addBuyTx(
           jsonBody.data.object.balance_transaction,
-          jsonBody.data.object.amount
+          jsonBody.data.object.amount / 100
         )
         .send({
           gas: 2600000,
-          gasPrice: 4000000000,
+          gasPrice: 8000000000,
           from: web3.eth.defaultAccount,
         });
     }
