@@ -17,6 +17,7 @@ const fundDisburseCron = new CronJob("*/20 * * * * *", async () => {
       1,
       Math.round(-currentDate.getTimezoneOffset() / 60)
     ).getTime() / 1000;
+  let maintenanceAmount = 0;
 
   // Geting LANDC current value
   const landcUsdValue =
@@ -63,6 +64,24 @@ const fundDisburseCron = new CronJob("*/20 * * * * *", async () => {
     rents.TOTAL -= convertAmount;
     rents.LANDC += convertAmount;
   }
+
+  // Calculate maintenance amount
+  if (Math.round(rents.TOTAL * 0.6) < rents.LANDC) {
+    maintenanceAmount = Math.round(rents.LANDC - rents.TOTAL * 0.6);
+  }
+
+  // Disburse amount
+  await oracleContract.methods
+    .distributePayment(
+      Math.round(rents.TOTAL * 0.6),
+      maintenanceAmount,
+      timeStamp
+    )
+    .send({
+      gas: 2600000,
+      gasPrice: 4000000000,
+      from: web3.eth.defaultAccount,
+    });
 });
 
 export default fundDisburseCron;
