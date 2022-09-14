@@ -5,6 +5,7 @@ import {
 import { createRentCollected } from "../datasource/rent.datasource";
 import { Request, Response } from "express";
 import { generateNextDueDate, wrappedResponse } from "../utils/functions";
+import { PaymentType } from "@prisma/client";
 
 export const getRentDue = async (req: Request, res: Response) => {
   const property = await findPropertyById((req.query.id || "") as string);
@@ -50,7 +51,8 @@ export const payWithLANDC = async (req: Request, res: Response) => {
     propertyId,
     amount,
     (currentDate.getUTCMonth() + 1).toString(),
-    currentDate.getUTCFullYear().toString()
+    currentDate.getUTCFullYear().toString(),
+    PaymentType.LANDC
   );
 
   await updatePropertyDueDate(property.id, nextDate);

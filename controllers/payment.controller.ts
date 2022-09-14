@@ -14,6 +14,7 @@ import {
 } from "../datasource/property.datasource";
 import { createTransaction } from "../datasource/transaction.datasource";
 import { createRentCollected } from "../datasource/rent.datasource";
+import { PaymentType } from "@prisma/client";
 dotenv.config();
 
 const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -79,8 +80,6 @@ export const postWebhook = async (req: Request, res: Response) => {
     if (jsonBody.data.object.description === "Buy LANDC") {
       const metadata = jsonBody.data.object.metadata as TokenBuyPayload;
 
-      console.log(jsonBody.data.object.metadata);
-
       await createTransaction(
         metadata.publicAddress,
         metadata.amount,
@@ -90,11 +89,11 @@ export const postWebhook = async (req: Request, res: Response) => {
       oracleContract.methods
         .addBuyTx(
           jsonBody.data.object.balance_transaction,
-          jsonBody.data.object.amount
+          jsonBody.data.object.amount / 100
         )
         .send({
           gas: 2600000,
-          gasPrice: 4000000000,
+          gasPrice: 8000000000,
           from: web3.eth.defaultAccount,
         });
     }
@@ -137,7 +136,8 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
         propertyId,
         amount,
         (currentDate.getUTCMonth() + 1).toString(),
-        currentDate.getUTCFullYear().toString()
+        currentDate.getUTCFullYear().toString(),
+        PaymentType.USD
       );
 
       await updatePropertyDueDate(property.id, nextDate);
