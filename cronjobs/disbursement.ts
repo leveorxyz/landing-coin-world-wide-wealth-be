@@ -5,6 +5,7 @@ import { paymentSumByGroup } from "../datasource/rent.datasource";
 import {
   landingTokenContract,
   oracleContract,
+  protocolContract,
   web3,
 } from "../utils/web3.utils";
 
@@ -71,7 +72,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
   }
 
   // Disburse amount
-  await oracleContract.methods
+  await protocolContract.methods
     .distributePayment(
       Math.round(rents.TOTAL * 0.6),
       maintenanceAmount,
