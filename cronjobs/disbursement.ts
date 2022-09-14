@@ -9,7 +9,7 @@ import {
   web3,
 } from "../utils/web3.utils";
 
-const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
+const fundDisburseCron = new CronJob("0 15 0 * * *", async () => {
   const currentDate = new Date();
   const timeStamp =
     new Date(
@@ -40,7 +40,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
   rents.LANDC = Math.round(rents.LANDC * landcUsdValue);
 
   // If Landc payment is less than 60% of total payment we convert
-  if (Math.round(rents.TOTAL * 0.6) < rents.LANDC) {
+  if (Math.round(rents.TOTAL * 0.6) > rents.LANDC) {
     const convertAmount = Math.round(rents.TOTAL * 0.6 - rents.LANDC);
     const txn_id = (Math.random() + 1).toString(36).substring(7);
 
@@ -53,6 +53,8 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
         from: web3.eth.defaultAccount,
       });
 
+    console.log("rent tx");
+
     // Converting usd amount
     await landingTokenContract.methods
       .convertUSDRentToLandc(convertAmount, `txn_${txn_id}`)
@@ -61,6 +63,8 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
         gasPrice: 6000000000,
         from: web3.eth.defaultAccount,
       });
+
+    console.log("convert");
 
     rents.TOTAL -= convertAmount;
     rents.LANDC += convertAmount;
@@ -74,7 +78,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
   // Disburse amount
   await protocolContract.methods
     .distributePayment(
-      Math.round(rents.TOTAL * 0.6),
+      Math.round(rents.TOTAL * 0.6) + "000000000000000000",
       maintenanceAmount,
       timeStamp
     )
@@ -83,6 +87,7 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
       gasPrice: 6000000000,
       from: web3.eth.defaultAccount,
     });
+  console.log("disburse");
 });
 
 export default fundDisburseCron;
