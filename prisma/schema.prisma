@@ -54,7 +54,7 @@ model RentCollected {
   month        String
   year         String
   rent         Int
-  payementType PaymentType?
+  paymentType PaymentType?
   propertyId   String
   Property     Property     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }

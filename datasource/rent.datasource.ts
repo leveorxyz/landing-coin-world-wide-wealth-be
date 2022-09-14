@@ -14,7 +14,7 @@ export const createRentCollected = async (
   amount: number,
   month: string,
   year: string,
-  payementType: PaymentType
+  paymentType: PaymentType
 ) => {
   return prisma.rentCollected.create({
     data: {
@@ -22,7 +22,16 @@ export const createRentCollected = async (
       rent: amount,
       month: month,
       year: year,
-      payementType: payementType,
+      paymentType: paymentType,
+    },
+  });
+};
+
+export const paymentSumByGroup = async () => {
+  return prisma.rentCollected.groupBy({
+    by: ["paymentType"],
+    _sum: {
+      rent: true,
     },
   });
 };
