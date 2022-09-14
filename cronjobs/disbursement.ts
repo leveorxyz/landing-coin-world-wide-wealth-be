@@ -8,7 +8,7 @@ import {
   web3,
 } from "../utils/web3.utils";
 
-const fundDisburseCron = new CronJob("*/20 * * * * *", async () => {
+const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
   const currentDate = new Date();
   const timeStamp =
     new Date(
