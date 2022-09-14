@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import OracleAbi from "../abis/oracle.json";
 import ProtocolAbi from "../abis/protocol.json";
-import LandKingAbi from "../abis/landkingToken.json";
+import LandingAbi from "../abis/landingToken.json";
 
 const createWeb3WithAccount = () => {
   const web3 = new Web3(process.env.RPC_URL!);
@@ -26,8 +26,8 @@ export const protocolContract = new web3.eth.Contract(
   process.env.PROTOCOL_CONTRACT_ADDRESS
 );
 
-export const landKingTokenContract = new web3.eth.Contract(
+export const landingTokenContract = new web3.eth.Contract(
   //@ts-ignore
-  LandKingAbi,
+  LandingAbi,
   process.env.LANDING_TOKEN_CONTRACT_ADDRESS
 );

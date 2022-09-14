@@ -3,7 +3,7 @@ import { CronJob } from "cron";
 import { paymentSumByGroup } from "../datasource/rent.datasource";
 
 import {
-  landKingTokenContract,
+  landingTokenContract,
   oracleContract,
   web3,
 } from "../utils/web3.utils";
@@ -20,7 +20,7 @@ const fundDisburseCron = new CronJob("*/20 * * * * *", async () => {
 
   // Geting LANDC current value
   const landcUsdValue =
-    (await landKingTokenContract.methods.getPrice().call()) / 1e18;
+    (await landingTokenContract.methods.getPrice().call()) / 1e18;
 
   // Querying total payments
   const payments = await paymentSumByGroup();
@@ -52,7 +52,7 @@ const fundDisburseCron = new CronJob("*/20 * * * * *", async () => {
       });
 
     // Converting usd amount
-    await landKingTokenContract.methods
+    await landingTokenContract.methods
       .convertUSDRentToLandc(convertAmount, `txn_${txn_id}`)
       .send({
         gas: 2600000,
