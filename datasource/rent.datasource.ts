@@ -1,20 +1,5 @@
+import { PaymentType } from "@prisma/client";
 import prisma from "../configs/prisma.config";
-
-export const createRent = async (
-  rent: number,
-  year: string,
-  month: string,
-  propertyId: string
-) => {
-  return prisma.rentCollected.create({
-    data: {
-      rent: rent,
-      year: year,
-      month: month,
-      propertyId: propertyId,
-    },
-  });
-};
 
 export const getAllRentByPropertyId = async (propertyId: string) => {
   return prisma.rentCollected.findMany({
@@ -28,7 +13,8 @@ export const createRentCollected = async (
   id: string,
   amount: number,
   month: string,
-  year: string
+  year: string,
+  payementType: PaymentType
 ) => {
   return prisma.rentCollected.create({
     data: {
@@ -36,6 +22,7 @@ export const createRentCollected = async (
       rent: amount,
       month: month,
       year: year,
+      payementType: payementType,
     },
   });
 };

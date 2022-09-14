@@ -14,6 +14,7 @@ import {
 } from "../datasource/property.datasource";
 import { createTransaction } from "../datasource/transaction.datasource";
 import { createRentCollected } from "../datasource/rent.datasource";
+import { PaymentType } from "@prisma/client";
 dotenv.config();
 
 const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -137,7 +138,8 @@ export const rentCollectionWebhook = async (req: Request, res: Response) => {
         propertyId,
         amount,
         (currentDate.getUTCMonth() + 1).toString(),
-        currentDate.getUTCFullYear().toString()
+        currentDate.getUTCFullYear().toString(),
+        PaymentType.USD
       );
 
       await updatePropertyDueDate(property.id, nextDate);
