@@ -88,7 +88,7 @@ export const postWebhook = async (req: Request, res: Response) => {
       );
       oracleContract.methods
         .addBuyTx(
-          jsonBody.data.object.balance_transaction,
+          jsonBody.data.object.payment_intent,
           jsonBody.data.object.amount / 100
         )
         .send({
