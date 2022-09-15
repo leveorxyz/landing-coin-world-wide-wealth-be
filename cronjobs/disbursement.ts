@@ -10,7 +10,7 @@ import {
   web3,
 } from "../utils/web3.utils";
 
-const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
+const fundDisburseCron = new CronJob("0 0 0 7 * *", async () => {
   const currentDate = new Date();
   const timeStamp =
     new Date(
@@ -50,24 +50,24 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
     const txn_id = (Math.random() + 1).toString(36).substring(7);
 
     // Dump the tx amount to oracle
-    // await oracleContract.methods
-    //   .addRentTx(`txn_${txn_id}`, convertAmount)
-    //   .send({
-    //     gas: 2600000,
-    //     gasPrice: 6000000000,
-    //     from: web3.eth.defaultAccount,
-    //   });
+    await oracleContract.methods
+      .addRentTx(`txn_${txn_id}`, convertAmount)
+      .send({
+        gas: 2600000,
+        gasPrice: 6000000000,
+        from: web3.eth.defaultAccount,
+      });
 
     console.log("rent tx dump");
 
     // Converting usd amount
-    // await landingTokenContract.methods
-    //   .convertUSDRentToLandc(convertAmount, `txn_${txn_id}`)
-    //   .send({
-    //     gas: 2600000,
-    //     gasPrice: 6000000000,
-    //     from: web3.eth.defaultAccount,
-    //   });
+    await landingTokenContract.methods
+      .convertUSDRentToLandc(convertAmount, `txn_${txn_id}`)
+      .send({
+        gas: 2600000,
+        gasPrice: 6000000000,
+        from: web3.eth.defaultAccount,
+      });
 
     console.log("convert call");
 
@@ -90,13 +90,13 @@ const fundDisburseCron = new CronJob("0 0 0 * * *", async () => {
     Math.round((maintenanceAmount / landcUsdValue) * 1e18)
   );
   console.log("disbursement amount:", { disbursementAmount, maintenanceValue });
-  // await protocolContract.methods
-  //   .distributePayment(disbursementAmount, maintenanceValue, timeStamp)
-  //   .send({
-  //     gas: 2600000,
-  //     gasPrice: 6000000000,
-  //     from: web3.eth.defaultAccount,
-  //   });
+  await protocolContract.methods
+    .distributePayment(disbursementAmount, maintenanceValue, timeStamp)
+    .send({
+      gas: 2600000,
+      gasPrice: 6000000000,
+      from: web3.eth.defaultAccount,
+    });
   console.log("disburse");
 });
 
